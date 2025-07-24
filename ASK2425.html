@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infografik Prestasi ASK Pahang 2024/2025</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .kpi-card {
+            background-color: #0A2463;
+            color: #FFFFFF;
+        }
+        .highlight-blue {
+            color: #00A6FB;
+        }
+        .bg-base {
+            background-color: #003554;
+        }
+        .bg-card {
+            background-color: #006494;
+        }
+        .text-accent {
+            color: #0582CA;
+        }
+        .nav-link {
+            transition: all 0.3s ease;
+        }
+        .nav-link:hover {
+            background-color: #0582CA;
+            color: #FFFFFF;
+        }
+    </style>
+</head>
+<body class="bg-base text-gray-200">
+    
+    <div class="container mx-auto p-4 md:p-8">
+
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-6xl font-black uppercase tracking-wide highlight-blue">Prestasi ASK Pahang</h1>
+            <p class="text-xl md:text-2xl font-semibold mt-2">Sesi Akademik 2024/2025</p>
+            <p class="text-md text-gray-400 mt-1">Analisis Komprehensif PBD dan UASA</p>
+        </header>
+
+        <nav class="sticky top-0 z-10 bg-base bg-opacity-80 backdrop-blur-sm mb-12 py-2 rounded-lg shadow-lg">
+            <div class="flex justify-center items-center space-x-2 md:space-x-4">
+                <a href="#kpi" class="nav-link font-semibold px-3 py-2 rounded-md text-sm md:text-base">Gambaran Keseluruhan</a>
+                <a href="#clusters" class="nav-link font-semibold px-3 py-2 rounded-md text-sm md:text-base">Kluster Intervensi</a>
+                <a href="#detailed-data" class="nav-link font-semibold px-3 py-2 rounded-md text-sm md:text-base">Data Terperinci</a>
+            </div>
+        </nav>
+
+        <section id="kpi" class="mb-16">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="kpi-card p-6 rounded-xl shadow-lg text-center">
+                    <h3 class="text-lg font-semibold text-gray-300">Jumlah Murid</h3>
+                    <p class="text-5xl font-extrabold highlight-blue">7,376</p>
+                </div>
+                <div class="kpi-card p-6 rounded-xl shadow-lg text-center">
+                    <h3 class="text-lg font-semibold text-gray-300">MTM PBD</h3>
+                    <p class="text-5xl font-extrabold highlight-blue">97.0%</p>
+                </div>
+                <div class="kpi-card p-6 rounded-xl shadow-lg text-center">
+                    <h3 class="text-lg font-semibold text-gray-300">Lulus UASA</h3>
+                    <p class="text-5xl font-extrabold highlight-blue">84.3%</p>
+                </div>
+                <div class="kpi-card p-6 rounded-xl shadow-lg text-center bg-red-800">
+                    <h3 class="text-lg font-semibold text-gray-200">Jurang Prestasi</h3>
+                    <p class="text-5xl font-extrabold text-white">-12.7%</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="performance-gap" class="mb-16 bg-card p-6 md:p-8 rounded-xl shadow-lg">
+            <h2 class="text-3xl font-bold text-center mb-2">Memahami Jurang Prestasi</h2>
+            <p class="text-center text-gray-300 max-w-3xl mx-auto mb-8">Walaupun penguasaan di bilik darjah (PBD) sangat tinggi, terdapat penurunan prestasi dalam peperiksaan akhir (UASA). Ini menunjukkan cabaran dalam menterjemahkan kefahaman kepada kemahiran menjawab soalan sumatif.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div>
+                    <h3 class="text-2xl font-semibold text-center mb-4">Pentaksiran Berterusan (PBD)</h3>
+                    <div class="chart-container h-64 md:h-80">
+                        <canvas id="pbdChart"></canvas>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-2xl font-semibold text-center mb-4">Ujian Akhir Sesi Akademik (UASA)</h3>
+                    <div class="chart-container h-64 md:h-80">
+                        <canvas id="uasaChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="district-performance" class="mb-16 bg-card p-6 md:p-8 rounded-xl shadow-lg">
+            <h2 class="text-3xl font-bold text-center mb-2">Pecahan Prestasi Mengikut Daerah</h2>
+            <p class="text-center text-gray-300 max-w-3xl mx-auto mb-8">Setiap daerah menunjukkan corak prestasi yang unik. Perbandingan ini membantu mengenal pasti kawasan yang cemerlang dan yang memerlukan sokongan tambahan.</p>
+            <div class="w-full max-w-6xl mx-auto h-[500px] md:h-[600px] relative">
+                <canvas id="districtChart"></canvas>
+            </div>
+        </section>
+
+        <section id="clusters" class="mb-16">
+            <h2 class="text-3xl font-bold text-center mb-2">Pengelasan Sekolah Mengikut Kluster Intervensi</h2>
+            <p class="text-center text-gray-300 max-w-3xl mx-auto mb-8">Sekolah-sekolah dikelompokkan kepada tiga kluster untuk membolehkan perancangan intervensi yang bersasar dan berkesan.</p>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="bg-card p-6 rounded-xl shadow-lg border-l-4 border-green-400 flex flex-col">
+                    <h3 class="text-2xl font-bold mb-2">🏆 1. Cemerlang & Konsisten</h3>
+                    <p class="text-gray-300 mb-4 text-sm">Sekolah yang cemerlang dalam PBD dan UASA. Mereka menjadi penanda aras bagi amalan terbaik.</p>
+                    <div class="text-sm space-y-1 mt-auto">
+                        <p><span class="font-bold">Pekan:</span> 9 / 12 sekolah</p>
+                        <p><span class="font-bold">Temerloh:</span> 5 / 11 sekolah</p>
+                        <p><span class="font-bold">Raub:</span> 4 / 7 sekolah</p>
+                        <p><span class="font-bold">Rompin:</span> 4 / 10 sekolah</p>
+                        <p><span class="font-bold">Bentong:</span> 3 / 9 sekolah</p>
+                        <p><span class="font-bold">Jerantut:</span> 3 / 8 sekolah</p>
+                        <p><span class="font-bold">Kuantan:</span> 10 / 22 sekolah</p>
+                        <p><span class="font-bold">Lipis:</span> 2 / 9 sekolah</p>
+                        <p><span class="font-bold">Bera:</span> 1 / 2 sekolah</p>
+                        <p><span class="font-bold">Maran:</span> 1 / 6 sekolah</p>
+                    </div>
+                </div>
+                <div class="bg-card p-6 rounded-xl shadow-lg border-l-4 border-yellow-400 flex flex-col">
+                    <h3 class="text-2xl font-bold mb-2">🌉 2. Jurang Prestasi</h3>
+                    <p class="text-gray-300 mb-4 text-sm">Sekolah dengan PBD yang cemerlang tetapi UASA sederhana. Isu utama adalah aplikasi pengetahuan dalam peperiksaan.</p>
+                     <div class="text-sm space-y-1 mt-auto">
+                        <p><span class="font-bold">Kuantan:</span> 5 / 22 sekolah</p>
+                        <p><span class="font-bold">Temerloh:</span> 4 / 11 sekolah</p>
+                        <p><span class="font-bold">Jerantut:</span> 3 / 8 sekolah</p>
+                        <p><span class="font-bold">Lipis:</span> 3 / 9 sekolah</p>
+                        <p><span class="font-bold">Maran:</span> 3 / 6 sekolah</p>
+                        <p><span class="font-bold">Bentong:</span> 2 / 9 sekolah</p>
+                        <p><span class="font-bold">Pekan:</span> 2 / 12 sekolah</p>
+                        <p><span class="font-bold">Raub:</span> 2 / 7 sekolah</p>
+                        <p><span class="font-bold">Rompin:</span> 2 / 10 sekolah</p>
+                    </div>
+                </div>
+                <div class="bg-card p-6 rounded-xl shadow-lg border-l-4 border-red-500 flex flex-col">
+                    <h3 class="text-2xl font-bold mb-2">🔴 3. Intervensi Komprehensif</h3>
+                    <p class="text-gray-300 mb-4 text-sm">Sekolah yang menghadapi cabaran dalam PBD dan/atau UASA, memerlukan sokongan bersepadu.</p>
+                    <div class="text-xs space-y-2 overflow-y-auto max-h-60 pr-2">
+                        <p class="font-bold text-sm">Bentong:</p>
+                        <ul class="list-disc list-inside pl-2">
+                            <li>SMK (FELDA) Lurah Bilut</li>
+                            <li>SMK (LKTP) Kg Sertik</li>
+                            <li>SMK Karak</li>
+                            <li>SMK Kuala Repas</li>
+                        </ul>
+                        <p class="font-bold text-sm">Bera:</p>
+                        <ul class="list-disc list-inside pl-2"><li>SMK Bandar Kerayong</li></ul>
+                        <p class="font-bold text-sm">Cameron Highlands:</p>
+                        <ul class="list-disc list-inside pl-2"><li>SMK Kampung Raja</li><li>SMK Ringlet</li><li>SMK Sultan Ahmad Shah</li></ul>
+                         <p class="font-bold text-sm">Jerantut:</p>
+                        <ul class="list-disc list-inside pl-2"><li>SMK Padang Piol</li><li>SMK Sungai Retang</li></ul>
+                        <p class="font-bold text-sm">Kuantan:</p>
+                        <ul class="list-disc list-inside pl-2"><li>SMK Bukit Goh</li><li>SMK Seri Damai</li><li>SMK Sungai Isap</li><li>SMK Tengku Afzan</li><li>SMK TG P.P. TG Muhammad</li><li>SMK Tok Sera</li><li>Sekolah Sukan Malaysia Pahang</li></ul>
+                        <p class="font-bold text-sm">Lipis:</p>
+                        <ul class="list-disc list-inside pl-2"><li>SMK Benta</li><li>SMK Chung Hwa</li><li>SMK Kuala Lanar</li><li>SMK Setia Wangsa</li></ul>
+                        <p class="font-bold text-sm">Maran:</p>
+                        <ul class="list-disc list-inside pl-2"><li>SMK (LKTP) Jengka 2</li><li>SMK Desa Jaya</li></ul>
+                        <p class="font-bold text-sm">Pekan:</p>
+                        <ul class="list-disc list-inside pl-2"><li>SMK Chini Timur</li></ul>
+                        <p class="font-bold text-sm">Raub:</p>
+                        <ul class="list-disc list-inside pl-2"><li>SMK LKTP Tersang</li></ul>
+                        <p class="font-bold text-sm">Rompin:</p>
+                        <ul class="list-disc list-inside pl-2"><li>SMK Perantau Damai</li><li>SMK Perwira Jaya</li><li>SMK Pontian Jaya</li><li>SMK Tanjung Gemok</li></ul>
+                        <p class="font-bold text-sm">Temerloh:</p>
+                        <ul class="list-disc list-inside pl-2"><li>SMK Teluk Sentang</li><li>SMK Temerloh Jaya</li></ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="interventions" class="mb-16 bg-card p-6 md:p-8 rounded-xl shadow-lg">
+            <h2 class="text-3xl font-bold text-center mb-2">Cadangan Pelan Tindakan Strategik</h2>
+            <p class="text-center text-gray-300 max-w-3xl mx-auto mb-8">Intervensi yang dirancang adalah berdasarkan keperluan unik setiap kluster untuk impak yang maksimum.</p>
+            <div class="space-y-8">
+                <div class="flex flex-col md:flex-row items-center">
+                    <div class="flex-shrink-0 w-32 h-32 bg-green-500 rounded-full flex items-center justify-center text-4xl font-black text-white mb-4 md:mb-0 md:mr-6">1</div>
+                    <div>
+                        <h3 class="text-2xl font-bold highlight-blue">Kluster Cemerlang & Konsisten</h3>
+                        <p class="text-gray-300">Fokus utama adalah untuk membudayakan kecemerlangan dan menjadikan sekolah-sekolah ini sebagai peneraju.</p>
+                        <ul class="mt-2 list-disc list-inside">
+                            <li>Sesi perkongsian amalan terbaik.</li>
+                            <li>Program peningkatan Gred A.</li>
+                            <li>Pelantikan guru sebagai Pembimbing Rakan Guru.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="flex flex-col md:flex-row-reverse items-center text-left md:text-right">
+                    <div class="flex-shrink-0 w-32 h-32 bg-yellow-500 rounded-full flex items-center justify-center text-4xl font-black text-white mb-4 md:mb-0 md:ml-6">2</div>
+                    <div>
+                        <h3 class="text-2xl font-bold highlight-blue">Kluster Jurang Prestasi</h3>
+                        <p class="text-gray-300">Fokus adalah untuk merapatkan jurang antara PBD dan UASA dengan memperkasa kemahiran menjawab peperiksaan.</p>
+                        <ul class="mt-2 list-disc list-inside md:list-outside md:text-right">
+                            <li>Bengkel Teknik Menjawab & Penguasaan KBAT.</li>
+                            <li>Latih tubi berfokus menggunakan soalan sebenar.</li>
+                            <li>Analisis diagnostik untuk topik kritikal.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="flex flex-col md:flex-row items-center">
+                    <div class="flex-shrink-0 w-32 h-32 bg-red-600 rounded-full flex items-center justify-center text-4xl font-black text-white mb-4 md:mb-0 md:mr-6">3</div>
+                    <div>
+                        <h3 class="text-2xl font-bold highlight-blue">Kluster Intervensi Komprehensif</h3>
+                        <p class="text-gray-300">Fokus adalah pengukuhan konsep asas dan sokongan pedagogi yang bersepadu.</p>
+                        <ul class="mt-2 list-disc list-inside">
+                            <li>Program `Back to Basics` untuk topik teras.</li>
+                            <li>Program Bimbingan Rakan Sebaya (Peer Tutoring).</li>
+                            <li>Bimbingan instruksional oleh SISC+ dan Guru Cemerlang.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="detailed-data" class="bg-card p-6 md:p-8 rounded-xl shadow-lg">
+            <h2 class="text-3xl font-bold text-center mb-8">Lampiran: Data Prestasi Terperinci Mengikut Sekolah</h2>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm text-left">
+                    <thead class="text-xs text-white uppercase bg-base">
+                        <tr>
+                            <th scope="col" class="px-6 py-3">Nama Sekolah</th>
+                            <th scope="col" class="px-6 py-3 text-center">MTM PBD (%)</th>
+                            <th scope="col" class="px-6 py-3 text-center">Lulus UASA (%)</th>
+                            <th scope="col" class="px-6 py-3">Kluster</th>
+                        </tr>
+                    </thead>
+                    <tbody id="school-data-table">
+                        <!-- Data will be populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <footer class="text-center pt-8 mt-12 border-t border-gray-700">
+            <p class="font-semibold">Laporan Analisis Prestasi Murid Subjek Asas Sains Komputer (ASK) Sesi 2024/2025</p>
+            <p class="text-sm text-gray-400">Disediakan oleh: Abdul Shamil Bin Ahmad Sukri, Penolong Pengarah TMK, Sektor Pembelajaran, JPN Pahang</p>
+        </footer>
+
+    </div>
+
+    <script>
+        const schoolData = [
+            { "daerah": "BENTONG", "nama": "SEKOLAH MENENGAH AGAMA PERSEKUTUAN BENTONG", "pbd": 100.0, "uasa": 99.6 },
+            { "daerah": "BENTONG", "nama": "SEKOLAH MENENGAH KEBANGSAAN BENTONG", "pbd": 100.0, "uasa": 76.0 },
+            { "daerah": "BENTONG", "nama": "SEKOLAH MENENGAH KEBANGSAAN (FELDA) LURAH BILUT", "pbd": 78.3, "uasa": 23.9 },
+            { "daerah": "BENTONG", "nama": "SEKOLAH MENENGAH KEBANGSAAN (LKTP) KG SERTIK", "pbd": 100.0, "uasa": 74.7 },
+            { "daerah": "BENTONG", "nama": "SEKOLAH MENENGAH KEBANGSAAN KARAK", "pbd": 100.0, "uasa": 66.7 },
+            { "daerah": "BENTONG", "nama": "SEKOLAH MENENGAH KEBANGSAAN KHAI MUN", "pbd": 100.0, "uasa": 75.6 },
+            { "daerah": "BENTONG", "nama": "SEKOLAH MENENGAH KEBANGSAAN KUALA REPAS", "pbd": 77.8, "uasa": 73.0 },
+            { "daerah": "BENTONG", "nama": "SEKOLAH MENENGAH KEBANGSAAN SERI BENTONG", "pbd": 100.0, "uasa": 94.7 },
+            { "daerah": "BENTONG", "nama": "SEKOLAH MENENGAH KEBANGSAAN SULAIMAN", "pbd": 98.8, "uasa": 97.1 },
+            { "daerah": "BERA", "nama": "SEKOLAH MENENGAH KEBANGSAAN BANDAR KERAYONG", "pbd": 100.0, "uasa": 73.6 },
+            { "daerah": "BERA", "nama": "SEKOLAH MENENGAH KEBANGSAAN MENGKARAK", "pbd": 100.0, "uasa": 100.0 },
+            { "daerah": "CAMERON HIGHLANDS", "nama": "SEKOLAH MENENGAH KEBANGSAAN KAMPUNG RAJA", "pbd": 100.0, "uasa": 64.1 },
+            { "daerah": "CAMERON HIGHLANDS", "nama": "SEKOLAH MENENGAH KEBANGSAAN RINGLET", "pbd": 95.7, "uasa": 69.6 },
+            { "daerah": "CAMERON HIGHLANDS", "nama": "SEKOLAH MENENGAH KEBANGSAAN SULTAN AHMAD SHAH", "pbd": 78.0, "uasa": 41.1 },
+            { "daerah": "JERANTUT", "nama": "SEKOLAH MENENGAH KEBANGSAAN INDERAPURA", "pbd": 100.0, "uasa": 78.7 },
+            { "daerah": "JERANTUT", "nama": "SEKOLAH MENENGAH KEBANGSAAN JERANTUT", "pbd": 100.0, "uasa": 81.6 },
+            { "daerah": "JERANTUT", "nama": "SEKOLAH MENENGAH KEBANGSAAN KOTA GELANGGI 2", "pbd": 100.0, "uasa": 95.7 },
+            { "daerah": "JERANTUT", "nama": "SEKOLAH MENENGAH KEBANGSAAN PADANG PIOL", "pbd": 87.5, "uasa": 71.4 },
+            { "daerah": "JERANTUT", "nama": "SEKOLAH MENENGAH KEBANGSAAN PADANG SAUJANA", "pbd": 100.0, "uasa": 96.3 },
+            { "daerah": "JERANTUT", "nama": "SEKOLAH MENENGAH KEBANGSAAN PULAU TAWAR", "pbd": 100.0, "uasa": 78.3 },
+            { "daerah": "JERANTUT", "nama": "SEKOLAH MENENGAH KEBANGSAAN SUNGAI RETANG", "pbd": 84.8, "uasa": 60.6 },
+            { "daerah": "JERANTUT", "nama": "SEKOLAH MENENGAH KEBANGSAAN TEMIN", "pbd": 97.8, "uasa": 91.3 },
+            { "daerah": "KUANTAN", "nama": "SEKOLAH BERASRAMA PENUH INTEGRASI KUANTAN", "pbd": 100.0, "uasa": 98.9 },
+            { "daerah": "KUANTAN", "nama": "SEKOLAH MENENGAH KEBANGSAAN ABDUL RAHMAN TALIB", "pbd": 100.0, "uasa": 97.5 },
+            { "daerah": "KUANTAN", "nama": "SEKOLAH MENENGAH KEBANGSAAN AIR PUTIH", "pbd": 99.4, "uasa": 87.1 },
+            { "daerah": "KUANTAN", "nama": "SEKOLAH MENENGAH KEBANGSAAN ALOR AKAR", "pbd": 100.0, "uasa": 91.3 },
+            { "daerah": "KUANTAN", "nama": "SEKOLAH MENENGAH KEBANGSAAN BESERAH", "pbd": 100.0, "uasa": 98.2 },
+            { "daerah": "KUANTAN", "nama": "SEKOLAH MENENGAH KEBANGSAAN BUKIT GOH", "pbd": 99.5, "uasa": 72.8 },
+            { "daerah": "KUANTAN", "nama": "SEKOLAH MENENGAH KEBANGSAAN CENDERAWASIH", "pbd": 100.0, "uasa": 94.2 },
+            { "daerah": "KUANTAN", "nama": "SEKOLAH MENENGAH KEBANGSAAN CHENGAL LEMPONG", "pbd": 100.0, "uasa": 92.3 },
+            { "daerah": "KUANTAN", "nama": "SEKOLAH MENENGAH KEBANGSAAN INDERA MAHKOTA 2", "pbd": 100.0, "uasa": 92.6 },
+            { "daerah": "KUANTAN", "nama": "SEKOLAH MENENGAH KEBANGSAAN LEPAR HILIR", "pbd": 100.0, "uasa": 95.2 },
+            { "daerah": "KUANTAN", "nama": "SEKOLAH MENENGAH KEBANGSAAN PAYA BESAR", "pbd": 100.0, "uasa": 95.2 },
+            { "daerah": "KUANTAN", "nama": "SEKOLAH MENENGAH KEBANGSAAN PELINDUNG", "pbd": 98.3, "uasa": 98.3 },
+            { "daerah": "KUANTAN", "nama": "SEKOLAH MENENGAH KEBANGSAAN SEMAMBU", "pbd": 100.0, "uasa": 75.0 },
+            { "daerah": "KUANTAN", "nama": "SEKOLAH MENENGAH KEBANGSAAN SERI DAMAI", "pbd": 100.0, "uasa": 71.6 },
+            { "daerah": "KUANTAN", "nama": "SEKOLAH MENENGAH KEBANGSAAN SULTAN ABU BAKAR", "pbd": 100.0, "uasa": 95.4 },
+            { "daerah": "KUANTAN", "nama": "SEKOLAH MENENGAH KEBANGSAAN SUNGAI ISAP", "pbd": 100.0, "uasa": 71.2 },
+            { "daerah": "KUANTAN", "nama": "SEKOLAH MENENGAH KEBANGSAAN SUNGAI SOI", "pbd": 99.0, "uasa": 94.9 },
+            { "daerah": "KUANTAN", "nama": "SEKOLAH MENENGAH KEBANGSAAN TENGKU AFZAN", "pbd": 100.0, "uasa": 71.2 },
+            { "daerah": "KUANTAN", "nama": "SEKOLAH MENENGAH KEBANGSAAN TG PANGLIMA PERANG TG MUHAMMAD", "pbd": 100.0, "uasa": 71.9 },
+            { "daerah": "KUANTAN", "nama": "SEKOLAH MENENGAH KEBANGSAAN TOK SERA", "pbd": 100.0, "uasa": 72.9 },
+            { "daerah": "KUANTAN", "nama": "SEKOLAH MENENGAH SAINS SULTAN HAJI AHMAD SHAH", "pbd": 100.0, "uasa": 82.0 },
+            { "daerah": "KUANTAN", "nama": "SEKOLAH SUKAN MALAYSIA PAHANG", "pbd": 100.0, "uasa": 72.2 },
+            { "daerah": "LIPIS", "nama": "SEKOLAH MENENGAH KEBANGSAAN BENTA", "pbd": 100.0, "uasa": 66.7 },
+            { "daerah": "LIPIS", "nama": "SEKOLAH MENENGAH KEBANGSAAN CHUNG HWA", "pbd": 78.2, "uasa": 69.0 },
+            { "daerah": "LIPIS", "nama": "SEKOLAH MENENGAH KEBANGSAAN CLIFFORD", "pbd": 100.0, "uasa": 95.7 },
+            { "daerah": "LIPIS", "nama": "SEKOLAH MENENGAH KEBANGSAAN (FELDA) SG KOYAN", "pbd": 98.0, "uasa": 78.4 },
+            { "daerah": "LIPIS", "nama": "SEKOLAH MENENGAH KEBANGSAAN KERAMBIT", "pbd": 100.0, "uasa": 84.2 },
+            { "daerah": "LIPIS", "nama": "SEKOLAH MENENGAH KEBANGSAAN KUALA LANAR", "pbd": 100.0, "uasa": 62.5 },
+            { "daerah": "LIPIS", "nama": "SEKOLAH MENENGAH KEBANGSAAN MERAPOH", "pbd": 98.5, "uasa": 92.6 },
+            { "daerah": "LIPIS", "nama": "SEKOLAH MENENGAH KEBANGSAAN PANGLIMA GARANG ABDUL SAMAD", "pbd": 100.0, "uasa": 75.0 },
+            { "daerah": "LIPIS", "nama": "SEKOLAH MENENGAH KEBANGSAAN SETIA WANGSA", "pbd": 93.7, "uasa": 73.0 },
+            { "daerah": "MARAN", "nama": "SEKOLAH MENENGAH KEBANGSAAN (LKTP) JENGKA 18", "pbd": 100.0, "uasa": 91.5 },
+            { "daerah": "MARAN", "nama": "SEKOLAH MENENGAH KEBANGSAAN (LKTP) JENGKA 2", "pbd": 98.5, "uasa": 34.0 },
+            { "daerah": "MARAN", "nama": "SEKOLAH MENENGAH KEBANGSAAN DESA JAYA", "pbd": 100.0, "uasa": 66.7 },
+            { "daerah": "MARAN", "nama": "SEKOLAH MENENGAH KEBANGSAAN JENGKA PUSAT", "pbd": 99.3, "uasa": 86.8 },
+            { "daerah": "MARAN", "nama": "SEKOLAH MENENGAH KEBANGSAAN MARAN", "pbd": 100.0, "uasa": 83.5 },
+            { "daerah": "MARAN", "nama": "SEKOLAH MENENGAH KEBANGSAAN SERI JENGKA", "pbd": 100.0, "uasa": 80.5 },
+            { "daerah": "PEKAN", "nama": "SEKOLAH BERASRAMA PENUH INTEGRASI TUN ABDUL RAZAK", "pbd": 100.0, "uasa": 100.0 },
+            { "daerah": "PEKAN", "nama": "SEKOLAH MENENGAH KEBANGSAAN (LKTP) CHINI", "pbd": 100.0, "uasa": 96.1 },
+            { "daerah": "PEKAN", "nama": "SEKOLAH MENENGAH KEBANGSAAN CHINI 2", "pbd": 86.1, "uasa": 79.2 },
+            { "daerah": "PEKAN", "nama": "SEKOLAH MENENGAH KEBANGSAAN CHINI TIMUR", "pbd": 100.0, "uasa": 70.3 },
+            { "daerah": "PEKAN", "nama": "SEKOLAH MENENGAH KEBANGSAAN DATO' MAHMUD MAT", "pbd": 100.0, "uasa": 84.2 },
+            { "daerah": "PEKAN", "nama": "SEKOLAH MENENGAH KEBANGSAAN NENASI", "pbd": 100.0, "uasa": 77.5 },
+            { "daerah": "PEKAN", "nama": "SEKOLAH MENENGAH KEBANGSAAN PEKAN", "pbd": 100.0, "uasa": 79.6 },
+            { "daerah": "PEKAN", "nama": "SEKOLAH MENENGAH KEBANGSAAN PERAMU JAYA", "pbd": 100.0, "uasa": 84.8 },
+            { "daerah": "PEKAN", "nama": "SEKOLAH MENENGAH KEBANGSAAN SERI PEKAN", "pbd": 100.0, "uasa": 92.1 },
+            { "daerah": "PEKAN", "nama": "SEKOLAH MENENGAH KEBANGSAAN SULTAN AHMAD", "pbd": 100.0, "uasa": 96.5 },
+            { "daerah": "PEKAN", "nama": "SEKOLAH MENENGAH KEBANGSAAN TENGKU ABDULLAH", "pbd": 100.0, "uasa": 93.1 },
+            { "daerah": "PEKAN", "nama": "SEKOLAH SULTAN HAJI AHMAD SHAH", "pbd": 100.0, "uasa": 95.3 },
+            { "daerah": "RAUB", "nama": "SEKOLAH MENENGAH KEBANGSAAN CHUNG CHING", "pbd": 100.0, "uasa": 78.8 },
+            { "daerah": "RAUB", "nama": "SEKOLAH MENENGAH KEBANGSAAN DONG", "pbd": 100.0, "uasa": 78.4 },
+            { "daerah": "RAUB", "nama": "SEKOLAH MENENGAH KEBANGSAAN LKTP TERSANG", "pbd": 100.0, "uasa": 59.1 },
+            { "daerah": "RAUB", "nama": "SEKOLAH MENENGAH KEBANGSAAN SERI RAUB", "pbd": 100.0, "uasa": 96.5 },
+            { "daerah": "RAUB", "nama": "SEKOLAH MENENGAH KEBANGSAAN SUNGAI RUAN", "pbd": 100.0, "uasa": 100.0 },
+            { "daerah": "RAUB", "nama": "SEKOLAH MENENGAH KEBANGSAAN TENGKU KUDIN", "pbd": 100.0, "uasa": 86.5 },
+            { "daerah": "RAUB", "nama": "SEKOLAH MENENGAH SAINS TENGKU ABDULLAH", "pbd": 100.0, "uasa": 100.0 },
+            { "daerah": "ROMPIN", "nama": "SEKOLAH MENENGAH KEBANGSAAN AGAMA PAHANG", "pbd": 100.0, "uasa": 100.0 },
+            { "daerah": "ROMPIN", "nama": "SEKOLAH MENENGAH KEBANGSAAN BANDAR TUN RAZAK", "pbd": 95.5, "uasa": 75.3 },
+            { "daerah": "ROMPIN", "nama": "SEKOLAH MENENGAH KEBANGSAAN KERATONG", "pbd": 96.4, "uasa": 85.7 },
+            { "daerah": "ROMPIN", "nama": "SEKOLAH MENENGAH KEBANGSAAN MUADZAM SHAH", "pbd": 100.0, "uasa": 98.0 },
+            { "daerah": "ROMPIN", "nama": "SEKOLAH MENENGAH KEBANGSAAN PERANTAU DAMAI", "pbd": 90.5, "uasa": 73.0 },
+            { "daerah": "ROMPIN", "nama": "SEKOLAH MENENGAH KEBANGSAAN PERWIRA JAYA", "pbd": 44.3, "uasa": 32.5 },
+            { "daerah": "ROMPIN", "nama": "SEKOLAH MENENGAH KEBANGSAAN PONTIAN JAYA", "pbd": 97.8, "uasa": 56.5 },
+            { "daerah": "ROMPIN", "nama": "SEKOLAH MENENGAH KEBANGSAAN ROMPIN", "pbd": 100.0, "uasa": 93.2 },
+            { "daerah": "ROMPIN", "nama": "SEKOLAH MENENGAH KEBANGSAAN SERI ROMPIN", "pbd": 100.0, "uasa": 92.9 },
+            { "daerah": "ROMPIN", "nama": "SEKOLAH MENENGAH KEBANGSAAN TANJUNG GEMOK", "pbd": 97.7, "uasa": 51.1 },
+            { "daerah": "TEMERLOH", "nama": "SEKOLAH MENENGAH KEBANGSAAN ABU BAKAR", "pbd": 100.0, "uasa": 89.4 },
+            { "daerah": "TEMERLOH", "nama": "SEKOLAH MENENGAH KEBANGSAAN HWA LIAN", "pbd": 99.5, "uasa": 75.0 },
+            { "daerah": "TEMERLOH", "nama": "SEKOLAH MENENGAH KEBANGSAAN KERDAU", "pbd": 100.0, "uasa": 76.4 },
+            { "daerah": "TEMERLOH", "nama": "SEKOLAH MENENGAH KEBANGSAAN KUALA KRAU", "pbd": 100.0, "uasa": 75.9 },
+            { "daerah": "TEMERLOH", "nama": "SEKOLAH MENENGAH KEBANGSAAN PAYA PULAI", "pbd": 97.8, "uasa": 91.1 },
+            { "daerah": "TEMERLOH", "nama": "SEKOLAH MENENGAH KEBANGSAAN SERI BAHAGIA", "pbd": 98.1, "uasa": 83.8 },
+            { "daerah": "TEMERLOH", "nama": "SEKOLAH MENENGAH KEBANGSAAN SERI SEMANTAN", "pbd": 100.0, "uasa": 76.4 },
+            { "daerah": "TEMERLOH", "nama": "SEKOLAH MENENGAH KEBANGSAAN SERI TUALANG", "pbd": 100.0, "uasa": 90.9 },
+            { "daerah": "TEMERLOH", "nama": "SEKOLAH MENENGAH KEBANGSAAN TELUK SENTANG", "pbd": 96.3, "uasa": 40.7 },
+            { "daerah": "TEMERLOH", "nama": "SEKOLAH MENENGAH KEBANGSAAN TEMERLOH", "pbd": 100.0, "uasa": 90.1 },
+            { "daerah": "TEMERLOH", "nama": "SEKOLAH MENENGAH KEBANGSAAN TEMERLOH JAYA", "pbd": 98.7, "uasa": 69.7 },
+        ];
+        
+        const getCluster = (pbd, uasa) => {
+            if (pbd < 95 || uasa < 75) {
+                return '<span class="font-semibold text-red-400">Intervensi Komprehensif</span>';
+            }
+            if (pbd > 95 && uasa < 88) {
+                return '<span class="font-semibold text-yellow-400">Jurang Prestasi</span>';
+            }
+            return '<span class="font-semibold text-green-400">Cemerlang & Konsisten</span>';
+        };
+
+        const tableBody = document.getElementById('school-data-table');
+        let currentDaerah = '';
+        schoolData.forEach(school => {
+            if (school.daerah !== currentDaerah) {
+                currentDaerah = school.daerah;
+                const headerRow = document.createElement('tr');
+                headerRow.className = 'bg-gray-800';
+                headerRow.innerHTML = `<td colspan="4" class="px-6 py-3 font-bold text-white">${currentDaerah}</td>`;
+                tableBody.appendChild(headerRow);
+            }
+            const row = document.createElement('tr');
+            row.className = 'border-b border-gray-700 hover:bg-gray-600';
+            const cluster = getCluster(school.pbd, school.uasa);
+            row.innerHTML = `
+                <td class="px-6 py-4">${school.nama}</td>
+                <td class="px-6 py-4 text-center">${school.pbd.toFixed(1)}%</td>
+                <td class="px-6 py-4 text-center">${school.uasa.toFixed(1)}%</td>
+                <td class="px-6 py-4">${cluster}</td>
+            `;
+            tableBody.appendChild(row);
+        });
+
+
+        const tooltipTitleCallback = (tooltipItems) => {
+            const item = tooltipItems[0];
+            let label = item.chart.data.labels[item.dataIndex];
+            if (Array.isArray(label)) {
+              return label.join(' ');
+            }
+            return label;
+        };
+        
+        const wrapLabel = (label) => {
+            const maxLength = 16;
+            if (label.length <= maxLength) return label;
+            const words = label.split(' ');
+            const lines = [];
+            let currentLine = '';
+            words.forEach(word => {
+                if ((currentLine + word).length > maxLength) {
+                    lines.push(currentLine.trim());
+                    currentLine = '';
+                }
+                currentLine += word + ' ';
+            });
+            lines.push(currentLine.trim());
+            return lines;
+        };
+
+        const energeticPlayfulPalette = {
+            blue1: '#00A6FB',
+            blue2: '#0582CA',
+            blue3: '#006494',
+            blue4: '#003554',
+            accentRed: '#EF4444',
+            accentYellow: '#FFC300',
+            accentGray: '#4B5563'
+        };
+
+        const pbdData = {
+            labels: ['Mencapai Tahap Minimum (MTM)', 'Belum Mencapai (BMTM)'],
+            datasets: [{
+                label: 'PBD',
+                data: [97.0, 3.0],
+                backgroundColor: [energeticPlayfulPalette.blue2, energeticPlayfulPalette.accentRed],
+                borderColor: energeticPlayfulPalette.blue4,
+                borderWidth: 2
+            }]
+        };
+        new Chart(document.getElementById('pbdChart'), {
+            type: 'doughnut',
+            data: pbdData,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { color: '#E5E7EB' }
+                    },
+                    tooltip: { callbacks: { title: tooltipTitleCallback } }
+                }
+            }
+        });
+
+        const uasaData = {
+            labels: ['Lulus (Gred A-D)', 'Gagal (Gred E/F)'],
+            datasets: [{
+                label: 'UASA',
+                data: [84.3, 15.7],
+                backgroundColor: [energeticPlayfulPalette.blue2, energeticPlayfulPalette.accentRed],
+                borderColor: energeticPlayfulPalette.blue4,
+                borderWidth: 2
+            }]
+        };
+        new Chart(document.getElementById('uasaChart'), {
+            type: 'doughnut',
+            data: uasaData,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { color: '#E5E7EB' }
+                    },
+                    tooltip: { callbacks: { title: tooltipTitleCallback } }
+                }
+            }
+        });
+
+        const districtData = {
+            labels: ['Pekan', 'Bentong', 'Jerantut', 'Raub', 'Bera', 'Kuantan', 'Temerloh', 'Lipis', 'Maran', 'Rompin', 'Cameron Highlands'],
+            datasets: [{
+                label: 'MTM PBD (%)',
+                data: [100.0, 99.6, 100.0, 100.0, 100.0, 99.8, 99.6, 94.4, 99.1, 86.7, 79.7],
+                backgroundColor: energeticPlayfulPalette.blue2,
+                borderColor: energeticPlayfulPalette.blue1,
+                borderWidth: 1
+            }, {
+                label: 'Lulus UASA (%)',
+                data: [92.5, 88.6, 88.5, 86.5, 86.0, 85.3, 83.1, 82.3, 81.6, 74.5, 41.1],
+                backgroundColor: energeticPlayfulPalette.accentYellow,
+                borderColor: energeticPlayfulPalette.blue2,
+                borderWidth: 1
+            }]
+        };
+        new Chart(document.getElementById('districtChart'), {
+            type: 'bar',
+            data: districtData,
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        max: 100,
+                        ticks: { 
+                            color: '#E5E7EB',
+                            callback: function(value) { return value + "%" }
+                        },
+                        grid: { color: energeticPlayfulPalette.accentGray }
+                    },
+                    y: {
+                        ticks: { color: '#E5E7EB' },
+                        grid: { color: 'transparent' }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: { color: '#E5E7EB' }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            title: tooltipTitleCallback,
+                            label: function(context) {
+                                let label = context.dataset.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                if (context.parsed.x !== null) {
+                                    label += context.parsed.x + '%';
+                                }
+                                return label;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>
+ss.
