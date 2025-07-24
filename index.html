@@ -51,6 +51,12 @@
             background-color: #0582CA;
             color: #FFFFFF;
         }
+        .accordion-header .arrow {
+            transition: transform 0.3s ease;
+        }
+        .accordion-header.open .arrow {
+            transform: rotate(90deg);
+        }
     </style>
 </head>
 <body class="bg-base text-gray-200">
@@ -235,20 +241,8 @@
 
         <section id="detailed-data" class="bg-card p-6 md:p-8 rounded-xl shadow-lg">
             <h2 class="text-3xl font-bold text-center mb-8">Lampiran: Data Prestasi Terperinci Mengikut Sekolah</h2>
-            <div class="overflow-x-auto">
-                <table class="w-full text-sm text-left">
-                    <thead class="text-xs text-white uppercase bg-base">
-                        <tr>
-                            <th scope="col" class="px-6 py-3">Nama Sekolah</th>
-                            <th scope="col" class="px-6 py-3 text-center">MTM PBD (%)</th>
-                            <th scope="col" class="px-6 py-3 text-center">Lulus UASA (%)</th>
-                            <th scope="col" class="px-6 py-3">Kluster</th>
-                        </tr>
-                    </thead>
-                    <tbody id="school-data-table">
-                        <!-- Data will be populated by JavaScript -->
-                    </tbody>
-                </table>
+            <div id="accordion-container" class="space-y-2">
+                <!-- Accordion items will be populated by JavaScript -->
             </div>
         </section>
 
@@ -372,28 +366,65 @@
             return '<span class="font-semibold text-green-400">Cemerlang & Konsisten</span>';
         };
 
-        const tableBody = document.getElementById('school-data-table');
-        let currentDaerah = '';
-        schoolData.forEach(school => {
-            if (school.daerah !== currentDaerah) {
-                currentDaerah = school.daerah;
-                const headerRow = document.createElement('tr');
-                headerRow.className = 'bg-gray-800';
-                headerRow.innerHTML = `<td colspan="4" class="px-6 py-3 font-bold text-white">${currentDaerah}</td>`;
-                tableBody.appendChild(headerRow);
+        const accordionContainer = document.getElementById('accordion-container');
+        const groupedData = schoolData.reduce((acc, school) => {
+            if (!acc[school.daerah]) {
+                acc[school.daerah] = [];
             }
-            const row = document.createElement('tr');
-            row.className = 'border-b border-gray-700 hover:bg-gray-600';
-            const cluster = getCluster(school.pbd, school.uasa);
-            row.innerHTML = `
-                <td class="px-6 py-4">${school.nama}</td>
-                <td class="px-6 py-4 text-center">${school.pbd.toFixed(1)}%</td>
-                <td class="px-6 py-4 text-center">${school.uasa.toFixed(1)}%</td>
-                <td class="px-6 py-4">${cluster}</td>
-            `;
-            tableBody.appendChild(row);
-        });
+            acc[school.daerah].push(school);
+            return acc;
+        }, {});
 
+        for (const daerah in groupedData) {
+            const districtDiv = document.createElement('div');
+            
+            const header = document.createElement('button');
+            header.className = 'accordion-header w-full flex justify-between items-center p-4 bg-base rounded-lg text-left font-bold text-lg hover:bg-opacity-80 transition-colors';
+            header.innerHTML = `
+                <span>${daerah}</span>
+                <span class="arrow text-2xl transform">&#x25B8;</span>
+            `;
+            
+            const content = document.createElement('div');
+            content.className = 'accordion-content hidden overflow-hidden';
+            
+            const tableContainer = document.createElement('div');
+            tableContainer.className = 'overflow-x-auto p-4';
+            
+            const table = document.createElement('table');
+            table.className = 'w-full text-sm text-left';
+            table.innerHTML = `
+                <thead class="text-xs text-white uppercase bg-gray-800">
+                    <tr>
+                        <th scope="col" class="px-6 py-3">Nama Sekolah</th>
+                        <th scope="col" class="px-6 py-3 text-center">MTM PBD (%)</th>
+                        <th scope="col" class="px-6 py-3 text-center">Lulus UASA (%)</th>
+                        <th scope="col" class="px-6 py-3">Kluster</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${groupedData[daerah].map(school => `
+                        <tr class="border-b border-gray-700 hover:bg-gray-600">
+                            <td class="px-6 py-4">${school.nama}</td>
+                            <td class="px-6 py-4 text-center">${school.pbd.toFixed(1)}%</td>
+                            <td class="px-6 py-4 text-center">${school.uasa.toFixed(1)}%</td>
+                            <td class="px-6 py-4">${getCluster(school.pbd, school.uasa)}</td>
+                        </tr>
+                    `).join('')}
+                </tbody>
+            `;
+            
+            tableContainer.appendChild(table);
+            content.appendChild(tableContainer);
+            districtDiv.appendChild(header);
+            districtDiv.appendChild(content);
+            accordionContainer.appendChild(districtDiv);
+
+            header.addEventListener('click', () => {
+                header.classList.toggle('open');
+                content.classList.toggle('hidden');
+            });
+        }
 
         const tooltipTitleCallback = (tooltipItems) => {
             const item = tooltipItems[0];
@@ -548,4 +579,3 @@
 
 </body>
 </html>
-ss.
