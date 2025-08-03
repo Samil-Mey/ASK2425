@@ -80,6 +80,10 @@
         <section id="kpi" class="mb-16">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <div class="kpi-card p-6 rounded-xl shadow-lg text-center">
+                    <h3 class="text-lg font-semibold text-gray-300">Jumlah Sekolah</h3>
+                    <p class="text-5xl font-extrabold highlight-blue">57</p>
+                </div>
+                <div class="kpi-card p-6 rounded-xl shadow-lg text-center">
                     <h3 class="text-lg font-semibold text-gray-300">Jumlah Murid</h3>
                     <p class="text-5xl font-extrabold highlight-blue">7,376</p>
                 </div>
@@ -91,7 +95,7 @@
                     <h3 class="text-lg font-semibold text-gray-300">Lulus UASA</h3>
                     <p class="text-5xl font-extrabold highlight-blue">84.3%</p>
                 </div>
-                <div class="kpi-card p-6 rounded-xl shadow-lg text-center bg-red-800">
+                <div class="kpi-card p-6 rounded-xl shadow-lg text-center bg-red-800 lg:col-span-4">
                     <h3 class="text-lg font-semibold text-gray-200">Jurang Prestasi</h3>
                     <p class="text-5xl font-extrabold text-white">-12.7%</p>
                 </div>
@@ -148,16 +152,18 @@
                 <div class="bg-card p-6 rounded-xl shadow-lg border-l-4 border-yellow-400 flex flex-col">
                     <h3 class="text-2xl font-bold mb-2">🌉 2. Jurang Prestasi</h3>
                     <p class="text-gray-300 mb-4 text-sm">Sekolah dengan PBD yang cemerlang tetapi UASA sederhana. Isu utama adalah aplikasi pengetahuan dalam peperiksaan.</p>
-                     <div class="text-sm space-y-1 mt-auto">
-                        <p><span class="font-bold">Kuantan:</span> 5 / 22 sekolah</p>
-                        <p><span class="font-bold">Temerloh:</span> 4 / 11 sekolah</p>
-                        <p><span class="font-bold">Jerantut:</span> 3 / 8 sekolah</p>
-                        <p><span class="font-bold">Lipis:</span> 3 / 9 sekolah</p>
-                        <p><span class="font-bold">Maran:</span> 3 / 6 sekolah</p>
-                        <p><span class="font-bold">Bentong:</span> 2 / 9 sekolah</p>
-                        <p><span class="font-bold">Pekan:</span> 2 / 12 sekolah</p>
-                        <p><span class="font-bold">Raub:</span> 2 / 7 sekolah</p>
-                        <p><span class="font-bold">Rompin:</span> 2 / 10 sekolah</p>
+                    <div class="text-sm mt-auto">
+                        <ul class="list-disc list-inside space-y-0.5">
+                            <li><span class="font-bold">Kuantan:</span> 5 / 22 sekolah</li>
+                            <li><span class="font-bold">Temerloh:</span> 4 / 11 sekolah</li>
+                            <li><span class="font-bold">Jerantut:</span> 3 / 8 sekolah</li>
+                            <li><span class="font-bold">Lipis:</span> 3 / 9 sekolah</li>
+                            <li><span class="font-bold">Maran:</span> 3 / 6 sekolah</li>
+                            <li><span class="font-bold">Bentong:</span> 2 / 9 sekolah</li>
+                            <li><span class="font-bold">Pekan:</span> 2 / 12 sekolah</li>
+                            <li><span class="font-bold">Raub:</span> 2 / 7 sekolah</li>
+                            <li><span class="font-bold">Rompin:</span> 2 / 10 sekolah</li>
+                        </ul>
                     </div>
                 </div>
                 <div class="bg-card p-6 rounded-xl shadow-lg border-l-4 border-red-500 flex flex-col">
@@ -175,7 +181,7 @@
                         <ul class="list-disc list-inside pl-2"><li>SMK Bandar Kerayong</li></ul>
                         <p class="font-bold text-sm">Cameron Highlands:</p>
                         <ul class="list-disc list-inside pl-2"><li>SMK Kampung Raja</li><li>SMK Ringlet</li><li>SMK Sultan Ahmad Shah</li></ul>
-                         <p class="font-bold text-sm">Jerantut:</p>
+                        <p class="font-bold text-sm">Jerantut:</p>
                         <ul class="list-disc list-inside pl-2"><li>SMK Padang Piol</li><li>SMK Sungai Retang</li></ul>
                         <p class="font-bold text-sm">Kuantan:</p>
                         <ul class="list-disc list-inside pl-2"><li>SMK Bukit Goh</li><li>SMK Seri Damai</li><li>SMK Sungai Isap</li><li>SMK Tengku Afzan</li><li>SMK TG P.P. TG Muhammad</li><li>SMK Tok Sera</li><li>Sekolah Sukan Malaysia Pahang</li></ul>
@@ -195,7 +201,7 @@
                 </div>
             </div>
         </section>
-        
+
         <section id="interventions" class="mb-16 bg-card p-6 md:p-8 rounded-xl shadow-lg">
             <h2 class="text-3xl font-bold text-center mb-2">Cadangan Pelan Tindakan Strategik</h2>
             <p class="text-center text-gray-300 max-w-3xl mx-auto mb-8">Intervensi yang dirancang adalah berdasarkan keperluan unik setiap kluster untuk impak yang maksimum.</p>
@@ -242,8 +248,7 @@
         <section id="detailed-data" class="bg-card p-6 md:p-8 rounded-xl shadow-lg">
             <h2 class="text-3xl font-bold text-center mb-8">Lampiran: Data Prestasi Terperinci Mengikut Sekolah</h2>
             <div id="accordion-container" class="space-y-2">
-                <!-- Accordion items will be populated by JavaScript -->
-            </div>
+                </div>
         </section>
 
         <footer class="text-center pt-8 mt-12 border-t border-gray-700">
@@ -367,6 +372,8 @@
         };
 
         const accordionContainer = document.getElementById('accordion-container');
+        
+        // Perubahan di sini: Mengelompokkan data sekolah mengikut daerah
         const groupedData = schoolData.reduce((acc, school) => {
             if (!acc[school.daerah]) {
                 acc[school.daerah] = [];
@@ -374,14 +381,18 @@
             acc[school.daerah].push(school);
             return acc;
         }, {});
-
+        
+        // Menambah jumlah sekolah ke setiap tajuk akordion
         for (const daerah in groupedData) {
             const districtDiv = document.createElement('div');
+            
+            // Mengira jumlah sekolah untuk daerah semasa
+            const schoolCount = groupedData[daerah].length;
             
             const header = document.createElement('button');
             header.className = 'accordion-header w-full flex justify-between items-center p-4 bg-base rounded-lg text-left font-bold text-lg hover:bg-opacity-80 transition-colors';
             header.innerHTML = `
-                <span>${daerah}</span>
+                <span>${daerah} (${schoolCount})</span>
                 <span class="arrow text-2xl transform">&#x25B8;</span>
             `;
             
